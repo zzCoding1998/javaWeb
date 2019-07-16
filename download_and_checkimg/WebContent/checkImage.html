@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CheckImage</title>
+	<script type="text/javascript">
+		function changeImage(obj){
+			obj.src="/download_and_checkimg/checkImage?time="+new Date().getTime();
+		}
+	</script>
+</head>
+<body>
+	验证码：<img src="/download_and_checkimg/checkImage" onclick="changeImage(this)" />
+</body>
+</html>
