@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.crm.mapper.CustomerMapper">
+	<!-- 根据dict_type_code 查询对应的base_dict列表 -->
+	<select id="getBaseDictList" parameterType="String" resultType="Base_dict">
+		select * from base_dict where dict_type_code = #{dict_type_code};
+	</select>
+	
+	<!-- 根据condition对象查询数据总条数 -->
+	<select id="getCustomerTotalByCondition" parameterType="Condition" resultType="Integer">
+		select count(*) from customer
+		<where>
+			1=1
+			<if test="cust_name != null and cust_name != ''">
+				and cust_name like "%${cust_name}%"
+			</if>
+			<if test="cust_source != null and cust_source != ''">
+				and cust_source = #{cust_source}
+			</if>
+			<if test="cust_industry != null and cust_industry != ''">
+				and cust_industry = #{cust_industry}
+			</if>
+			<if test="cust_level != null and cust_level != ''">
+				and cust_level = #{cust_level} 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据condition对象查询当前页数据 -->
+	<select id="getCustomerRowsByCondition" parameterType="Condition" resultType="Customer">
+		select * from customer
+		<where>
+			1=1
+			<if test="cust_name != null and cust_name != ''">
+				and cust_name like "%${cust_name}%"
+			</if>
+			<if test="cust_source != null and cust_source != ''">
+				and cust_source = #{cust_source}
+			</if>
+			<if test="cust_industry != null and cust_industry != ''">
+				and cust_industry = #{cust_industry}
+			</if>
+			<if test="cust_level != null and cust_level != ''">
+				and cust_level = #{cust_level} 
+			</if>
+			limit #{start},#{number}
+		</where>
+	</select>
+	
+	<!-- 根据id查询客户个人信息 -->
+	<select id="getCustomerInfoById" parameterType="String" resultType="Customer">
+		select * from customer where cust_id = #{id}
+	</select>
+	
+	<!-- 更新客户信息 -->
+	<update id="updateCustomer" parameterType="Customer">
+		update customer
+		set cust_name=#{cust_name},
+		cust_source=#{cust_source},
+		cust_industry=#{cust_industry},
+		cust_level=#{cust_level},
+		cust_linkman=#{cust_linkman},
+		cust_phone=#{cust_phone},
+		cust_mobile=#{cust_mobile},
+		cust_zipcode=#{cust_zipcode},
+		cust_address=#{cust_address}
+		where
+		cust_id=#{cust_id}
+	</update>
+	
+	<!-- 删除客户信息 -->
+	<delete id="deleteCustomerById" parameterType="String">
+		delete from customer where cust_id = #{cust_id}
+	</delete>
+</mapper>
